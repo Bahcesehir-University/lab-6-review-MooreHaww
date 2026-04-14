@@ -27,7 +27,8 @@ using namespace std;
 //   - Operator Overloading (<<, ==, <)
 //   - String operations
 // -----------------------------------------------------------
-class Student {
+class Student
+{
 private:
     string name;
     int id;
@@ -38,61 +39,87 @@ public:
 
     // TODO 1a: Default constructor
     // Set name to "Unknown", id to 0, gpa to 0.0
-    Student() {
-        // YOUR CODE HERE
+    Student()
+    {
+        name = "Unknown";
+        id = 0;
+        gpa = 0.0;
     }
 
     // TODO 1b: Parameterized constructor
     // Initialize all three member variables from parameters
-    Student(string n, int i, double g) {
+    Student(string n, int i, double g)
+    {
         // YOUR CODE HERE
+        name = n;
+        id = i;
+        gpa = g;
     }
 
     // TODO 1c: Copy constructor
     // Create a deep copy of another Student object
-    Student(const Student& other) {
+    Student(const Student &other)
+    {
         // YOUR CODE HERE
+        name = other.name;
+        id = other.id;
+        gpa = other.gpa;
     }
 
     // TODO 1d: Destructor
     // Print: "Student [name] destroyed"
-    ~Student() {
+    ~Student()
+    {
         // YOUR CODE HERE
+        cout << "Student " << name << " destroyed" << endl;
     }
 
     // ----- Task 2: Getters (Encapsulation) -----
 
     // TODO 2a: Getter for name
-    string getName() const {
+    string getName() const
+    {
         // YOUR CODE HERE
-        return "";
+        return name;
     }
 
     // TODO 2b: Getter for id
-    int getId() const {
+    int getId() const
+    {
         // YOUR CODE HERE
-        return 0;
+        return id;
     }
 
     // TODO 2c: Getter for gpa
-    double getGpa() const {
+    double getGpa() const
+    {
         // YOUR CODE HERE
-        return 0.0;
+        return gpa;
     }
 
     // ----- Task 3: Setters with Validation -----
 
     // TODO 3a: Setter for name
     // Name must not be empty. If empty, keep current name.
-    void setName(string n) {
+    void setName(string n)
+    {
         // YOUR CODE HERE
+        if (!n.empty())
+        {
+            name = n;
+        }
     }
 
     // TODO 3b: Setter for GPA
     // GPA must be between 0.0 and 4.0 (inclusive).
     // If out of range, keep current GPA.
-    void setGpa(double g) {
+    void setGpa(double g)
+    {
         // YOUR CODE HERE
+        if (g >= 0.0 && g <= 4.0)
+        {
+            gpa = g;
+        }
     }
 
     // ----- Task 4: String Operation -----
@@ -100,32 +127,40 @@ public:
     // TODO 4: getFormattedName()
     // Return the name in UPPERCASE
     // Hint: loop through each character and use toupper()
-    string getFormattedName() const {
-        // YOUR CODE HERE
-        return "";
+    string getFormattedName() const
+    {
+        string formatted = name;
+        for (char &c : formatted)
+        {
+            c = toupper(c);
+        }
+        return formatted;
     }
 
     // ----- Task 5: Operator Overloading -----
 
     // TODO 5a: Equality operator (==)
     // Two students are equal if they have the same id
-    bool operator==(const Student& other) const {
+    bool operator==(const Student &other) const
+    {
         // YOUR CODE HERE
-        return false;
+        return id == other.id;
     }
 
     // TODO 5b: Less-than operator (<)
     // Compare by GPA (lower GPA = "less than")
-    bool operator<(const Student& other) const {
+    bool operator<(const Student &other) const
+    {
         // YOUR CODE HERE
-        return false;
+        return gpa < other.gpa;
     }
 
     // TODO 5c: Stream insertion operator (<<)
     // Format: "Student(name, ID: id, GPA: gpa)"
     // Example: "Student(Ali, ID: 101, GPA: 3.5)"
-    friend ostream& operator<<(ostream& os, const Student& s) {
-        // YOUR CODE HERE
+    friend ostream &operator<<(ostream &os, const Student &s)
+    {
+        os << "Student(" << s.name << ", ID: " << s.id << ", GPA: " << s.gpa << ")";
         return os;
     }
 };
@@ -136,21 +171,28 @@ public:
 
 // TODO 6: Function Overloading - findBestStudent
 // Version 1: Takes two Student references, returns the one with higher GPA
-Student findBestStudent(const Student& a, const Student& b) {
-    // YOUR CODE HERE
-    return a;
+Student findBestStudent(const Student &a, const Student &b)
+{
+    return (a.getGpa() >= b.getGpa()) ? a : b;
 }
 
 // Version 2: Takes an array of Students and its size, returns the one with highest GPA
-Student findBestStudent(Student arr[], int size) {
-    // YOUR CODE HERE
-    return arr[0];
+Student findBestStudent(Student arr[], int size)
+{
+    int bestIdx = 0;
+    for (int i = 1; i < size; i++)
+    {
+        if (arr[i].getGpa() > arr[bestIdx].getGpa())
+            bestIdx = i;
+    }
+    return arr[bestIdx];
 }
 
 // ================================
 // MAIN FUNCTION
 // ================================
-int main() {
+int main()
+{
     // --- Demo: Default Constructor ---
     Student s1;
     cout << "Default: " << s1 << endl;
@@ -170,10 +212,10 @@ int main() {
     cout << "s3 GPA: " << s3.getGpa() << endl;
 
     // --- Demo: Setter Validation ---
-    s2.setGpa(5.0);  // Invalid, should not change
+    s2.setGpa(5.0); // Invalid, should not change
     cout << "s2 after invalid setGpa(5.0): " << s2 << endl;
 
-    s2.setGpa(3.9);  // Valid
+    s2.setGpa(3.9); // Valid
     cout << "s2 after valid setGpa(3.9): " << s2 << endl;
 
     // --- Demo: String Operation ---
